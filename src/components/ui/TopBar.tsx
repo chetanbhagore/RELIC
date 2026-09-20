@@ -14,6 +14,8 @@ import {
   BarChart3,
   RotateCcw,
   X,
+  Receipt,
+  Plus,
 } from 'lucide-react';
 import { useRelicStore } from '../../lib/store';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
@@ -27,6 +29,8 @@ export function TopBar() {
   const toggleAudioMuted = useRelicStore((s) => s.toggleAudioMuted);
   const setEchoModalOpen = useRelicStore((s) => s.setEchoModalOpen);
   const setStatsModalOpen = useRelicStore((s) => s.setStatsModalOpen);
+  const setReceiptLedgerOpen = useRelicStore((s) => s.setReceiptLedgerOpen);
+  const setExcavateModalOpen = useRelicStore((s) => s.setExcavateModalOpen);
   const resetView = useRelicStore((s) => s.resetView);
   const echoes = useRelicStore((s) => s.echoes);
   const allRelics = useRelicStore((s) => s.allRelics);
@@ -92,7 +96,17 @@ export function TopBar() {
           aria-label="View excavated digital life stats"
         >
           <BarChart3 className="w-3.5 h-3.5 text-[#C9A227]" />
-          <span>{allRelics.length} Relics Excavated</span>
+          <span>{allRelics.length} Relics</span>
+        </button>
+
+        {/* Master Receipt Ledger Trigger */}
+        <button
+          onClick={() => setReceiptLedgerOpen(true)}
+          className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0F172A] border border-slate-800 text-[11px] text-[#FDE68A] hover:border-[#C9A227]/60 hover:bg-[#1E293B] transition-colors cursor-pointer"
+          aria-label="Open Master Life Receipt Ledger"
+        >
+          <Receipt className="w-3.5 h-3.5 text-[#F59E0B]" />
+          <span>Life Ledger</span>
         </button>
       </div>
 
@@ -132,6 +146,27 @@ export function TopBar() {
 
       {/* Right Controls */}
       <div className="flex items-center gap-2 order-2 sm:order-3">
+        {/* Excavate New Artifact (Custom Receipt Ingestion) */}
+        <button
+          onClick={() => setExcavateModalOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#C9A227] to-[#F59E0B] text-[#070B14] text-xs font-bold shadow-md shadow-[#C9A227]/25 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          title="Excavate New Relic (Live Receipt Ingestion)"
+          aria-label="Excavate New Relic"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Excavate +</span>
+        </button>
+
+        {/* Mobile Ledger Quick Button */}
+        <button
+          onClick={() => setReceiptLedgerOpen(true)}
+          className="lg:hidden p-1.5 rounded-full bg-[#0F172A] border border-slate-800 text-slate-300 hover:text-[#FDE68A] hover:border-[#C9A227]/40 transition-colors cursor-pointer"
+          title="Master Receipt Ledger"
+          aria-label="Open Master Receipt Ledger"
+        >
+          <Receipt className="w-4 h-4 text-[#F59E0B]" />
+        </button>
+
         {/* Reveal Echoes Button (Key Differentiator) */}
         <button
           onClick={toggleEchoMode}

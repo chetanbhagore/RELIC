@@ -17,6 +17,8 @@ import { EchoLegend } from './components/ui/EchoLegend';
 import { LoadingScreen } from './components/ui/LoadingScreen';
 import { ChapterBanner } from './components/ui/ChapterBanner';
 import { OnboardingHint } from './components/ui/OnboardingHint';
+import { ReceiptLedgerModal } from './components/ui/ReceiptLedgerModal';
+import { ExcavateModal } from './components/ui/ExcavateModal';
 import { useRelicStore } from './lib/store';
 
 export function App() {
@@ -29,6 +31,10 @@ export function App() {
   const setEchoModalOpen = useRelicStore((s) => s.setEchoModalOpen);
   const isStatsModalOpen = useRelicStore((s) => s.isStatsModalOpen);
   const setStatsModalOpen = useRelicStore((s) => s.setStatsModalOpen);
+  const isReceiptLedgerOpen = useRelicStore((s) => s.isReceiptLedgerOpen);
+  const setReceiptLedgerOpen = useRelicStore((s) => s.setReceiptLedgerOpen);
+  const isExcavateModalOpen = useRelicStore((s) => s.isExcavateModalOpen);
+  const setExcavateModalOpen = useRelicStore((s) => s.setExcavateModalOpen);
   const toggleEchoMode = useRelicStore((s) => s.toggleEchoMode);
   const chapters = useRelicStore((s) => s.chapters);
   const activeChapterId = useRelicStore((s) => s.activeChapterId);
@@ -46,6 +52,8 @@ export function App() {
       if (e.key === 'Escape') {
         if (isEchoModalOpen) setEchoModalOpen(false);
         else if (isStatsModalOpen) setStatsModalOpen(false);
+        else if (isReceiptLedgerOpen) setReceiptLedgerOpen(false);
+        else if (isExcavateModalOpen) setExcavateModalOpen(false);
         else if (selectedRelicId) {
           selectRelic(null);
           setDetailPanelOpen(false);
@@ -134,6 +142,12 @@ export function App() {
 
       {/* Analytics & Persona Synthesis Modal */}
       <StatsModal />
+
+      {/* Master Life Receipt Ledger Modal */}
+      <ReceiptLedgerModal />
+
+      {/* Live Custom Artifact Excavation Modal */}
+      <ExcavateModal />
 
       {/* Accessibility Helper & Keyboard Hints */}
       <AccessibilityBar />

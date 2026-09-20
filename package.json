@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "vitest run",
     "lint": "oxlint",
     "preview": "vite preview",
     "preprocess": "node scripts/preprocess-data.js"
@@ -35,6 +36,7 @@
     "oxlint": "^1.81.0",
     "tailwindcss": "^4.2.1",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
   }
 }

@@ -9,14 +9,26 @@ export default defineConfig({
     tailwindcss()
   ],
   build: {
-    chunkSizeWarningLimit: 1600,
+    chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('three') || id.includes('@react-three')) {
-            return 'three-vendor';
+          if (id.includes('node_modules/three/')) {
+            return 'three-core';
           }
-          if (id.includes('lucide-react') || id.includes('zustand')) {
+          if (id.includes('node_modules/@react-three/fiber/')) {
+            return 'three-fiber';
+          }
+          if (id.includes('node_modules/@react-three/drei/')) {
+            return 'three-drei';
+          }
+          if (id.includes('node_modules/three-stdlib/')) {
+            return 'three-stdlib';
+          }
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-core';
+          }
+          if (id.includes('node_modules/lucide-react/') || id.includes('node_modules/zustand/') || id.includes('node_modules/canvas-confetti/')) {
             return 'ui-vendor';
           }
         },

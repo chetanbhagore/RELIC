@@ -5,6 +5,7 @@
  */
 
 import { create } from 'zustand';
+import confetti from 'canvas-confetti';
 import type { Relic, Chapter, Moment, EchoPattern, RelicCategory } from '../types/relic';
 import { sound } from './sound';
 import curatedData from '../data/curated_relics.json';
@@ -37,6 +38,9 @@ interface RelicStore {
   isStatsModalOpen: boolean;
   isAudioMuted: boolean;
 
+  isReceiptLedgerOpen: boolean;
+  isExcavateModalOpen: boolean;
+
   // Actions
   selectRelic: (id: string | null) => void;
   selectChapter: (id: string | null) => void;
@@ -48,8 +52,11 @@ interface RelicStore {
   setDetailPanelOpen: (open: boolean) => void;
   setEchoModalOpen: (open: boolean) => void;
   setStatsModalOpen: (open: boolean) => void;
+  setReceiptLedgerOpen: (open: boolean) => void;
+  setExcavateModalOpen: (open: boolean) => void;
   toggleAudioMuted: () => void;
   resetView: () => void;
+  addRelic: (data: Partial<Relic> & { title: string; category: RelicCategory }) => void;
 }
 
 // Pre-initialize intelligence layer on load
@@ -82,6 +89,9 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
   isEchoModalOpen: false,
   isStatsModalOpen: false,
   isAudioMuted: false,
+
+  isReceiptLedgerOpen: false,
+  isExcavateModalOpen: false,
 
   selectRelic: (id) => {
     if (!id) {
@@ -209,6 +219,74 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
     set({ isAudioMuted: next });
   },
 
+  setReceiptLedgerOpen: (open) => set({ isReceiptLedgerOpen: open }),
+  setExcavateModalOpen: (open) => set({ isExcavateModalOpen: open }),
+
+  addRelic: (data) => {
+    const id = `relic_${Date.now()}`;
+    const chapterId = data.chapterId || 'ch_5';
+    const targetChapter = get().chapters.find((c) => c.id === chapterId) || get().chapters[4];
+    const [px, py, pz] = targetChapter.platformPosition;
+
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 0.5 + Math.random() * 2.0;
+    const coords: [number, number, number] = [
+      px + Math.cos(angle) * radius,
+      py + 0.45,
+      pz + Math.sin(angle) * radius,
+    ];
+
+    const newRelic: Relic = {
+      id,
+      category: data.category,
+      title: data.title,
+      subtitle: data.subtitle || 'Custom Excavated Artifact',
+      timestamp: data.timestamp || new Date().toISOString(),
+      spatialCoordinates: coords,
+      chapterId: targetChapter.id,
+      energy: data.energy ?? 0.85,
+      details: {
+        amount: data.details?.amount,
+        artist: data.details?.artist,
+        album: data.details?.album,
+        sentiment: data.details?.sentiment || 'focused',
+        contextSnippet: data.details?.contextSnippet || 'Artifact personally excavated by user during live vault inspection.',
+        tags: data.details?.tags || ['excavated', 'custom', data.category],
+      },
+      location: data.location || {
+        city: 'Personal Vault',
+        name: 'Excavation Site Alpha',
+        coordinates: [19.076, 72.8777],
+      },
+      connectedRelicIds: [],
+    };
+
+    const updatedRelics = [newRelic, ...get().allRelics];
+    const updatedChapters = get().chapters.map((ch) =>
+      ch.id === targetChapter.id ? { ...ch, relicCount: ch.relicCount + 1 } : ch
+    );
+
+    set({
+      allRelics: updatedRelics,
+      chapters: updatedChapters,
+      isExcavateModalOpen: false,
+    });
+
+    sound.playRelicSelect();
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#C9A227', '#E8D5A3', '#38BDF8', '#F59E0B'],
+      });
+    } catch {
+      // ignore
+    }
+
+    get().selectRelic(id);
+  },
+
   resetView: () => {
     set({
       cameraTarget: DEFAULT_CAMERA_TARGET,
@@ -218,6 +296,8 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
       selectedMomentId: null,
       isDetailPanelOpen: false,
       isEchoModeActive: false,
+      isReceiptLedgerOpen: false,
+      isExcavateModalOpen: false,
       searchQuery: '',
       selectedCategories: [],
     });
