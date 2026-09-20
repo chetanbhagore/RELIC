@@ -56,19 +56,19 @@ export function ChapterBanner() {
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="font-serif font-bold text-base sm:text-lg text-[#F1F5F9] tracking-wide truncate">
+              <h2 className="font-serif font-black text-base sm:text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#FFFFFF] via-[#FDE68A] to-[#F59E0B] truncate drop-shadow-sm">
                 {chapter.title.replace(/^Chapter\s+[IVX]+:\s*/, '')}
               </h2>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#C9A227]/15 border border-[#C9A227]/40 text-[#E8D5A3]">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#C9A227]/20 border border-[#C9A227]/50 text-[#FDE68A] font-semibold">
                 {chapter.relicCount} Relics
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-200">
                 {chapter.dominantMood}
               </span>
             </div>
 
             {/* 1-2 line intelligent synthesis insight */}
-            <p className="text-xs text-[#E8D5A3] mt-1 font-sans italic leading-relaxed">
+            <p className="text-xs text-[#FDE68A] mt-1 font-sans font-medium italic leading-relaxed">
               ✦ {chapter.insightLine || chapter.narration.split('.')[0] + '.'}
             </p>
           </div>

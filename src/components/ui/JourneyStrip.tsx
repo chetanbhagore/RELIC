@@ -37,20 +37,20 @@ export function JourneyStrip() {
               aria-label={`Navigate to Chapter ${ROMAN_NUMERALS[idx]}: ${chapter.title}`}
             >
               <div
-                className={`flex items-center justify-center w-6 h-6 rounded-lg font-serif font-bold text-xs shrink-0 ${
+                className={`flex items-center justify-center w-6 h-6 rounded-lg font-serif font-black text-xs shrink-0 tracking-wider ${
                   isActive
-                    ? 'bg-[#C9A227] text-[#070B14]'
-                    : 'bg-slate-800 text-[#E8D5A3]'
+                    ? 'bg-[#C9A227] text-[#070B14] shadow-sm'
+                    : 'bg-slate-800 text-[#FDE68A]'
                 }`}
               >
                 {ROMAN_NUMERALS[idx]}
               </div>
 
               <div className="hidden sm:block">
-                <p className="text-[11px] font-semibold text-slate-200">
+                <p className="text-[12px] font-bold text-slate-100 tracking-wide font-sans">
                   {chapter.title.replace(/^Chapter\s+[IVX]+:\s*/, '')}
                 </p>
-                <p className="text-[9px] text-slate-400 font-mono">
+                <p className="text-[10px] text-slate-400 font-mono">
                   {chapter.relicCount} relics
                   {chapter.insightLine ? ` · ${chapter.insightLine}` : ` · ${chapter.dominantMood}`}
                 </p>

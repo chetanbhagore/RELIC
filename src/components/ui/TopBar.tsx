@@ -70,14 +70,14 @@ export function TopBar() {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-serif font-bold text-sm tracking-wider text-[#E8D5A3]">
+              <span className="font-serif font-black text-sm tracking-[0.22em] bg-gradient-to-r from-[#FDE68A] via-[#F59E0B] to-[#D97706] bg-clip-text text-transparent drop-shadow-sm">
                 RELIC
               </span>
-              <span className="text-[10px] uppercase tracking-widest px-1.5 py-0.2 rounded bg-[#1E293B] text-[#94A3B8] font-mono border border-slate-700">
+              <span className="text-[10px] uppercase tracking-widest px-1.5 py-0.2 rounded bg-[#1E293B] text-[#E8D5A3] font-mono border border-slate-700">
                 VAULT
               </span>
             </div>
-            <p className="text-[10px] text-[#94A3B8] hidden sm:block">
+            <p className="text-[10px] text-slate-300 font-sans tracking-wide hidden sm:block">
               Your Life, In Receipts
             </p>
           </div>

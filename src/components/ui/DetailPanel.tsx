@@ -257,23 +257,23 @@ function PanelContent({
         {/* Physical Receipt Card */}
         <div className="relative p-4 rounded-xl bg-gradient-to-b from-[#0F172A] to-[#070B14] border border-[#C9A227]/50 shadow-xl overflow-hidden">
           {/* Subtle receipt watermark / top perforation line */}
-          <div className="flex items-center justify-between pb-2 mb-2 border-b border-dashed border-[#C9A227]/30 text-[10px] font-mono text-slate-400">
-            <span className="tracking-widest text-[#E8D5A3]">№ REC-{selectedRelic.id.replace(/\D/g, '').padStart(6, '0').slice(-6) || selectedRelic.id.slice(-6)}</span>
-            <span className="tracking-widest text-slate-500 select-none">||| | || ||| | |||</span>
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-dashed border-[#C9A227]/40 text-[10px] font-mono text-slate-300">
+            <span className="tracking-widest text-[#FDE68A] font-semibold">№ REC-{selectedRelic.id.replace(/\D/g, '').padStart(6, '0').slice(-6) || selectedRelic.id.slice(-6)}</span>
+            <span className="tracking-widest text-slate-400 select-none">||| | || ||| | |||</span>
           </div>
 
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
-              <h2 className="font-serif text-xl font-bold text-[#F1F5F9] leading-snug tracking-wide">
+              <h2 className="font-serif text-xl sm:text-2xl font-black text-white leading-snug tracking-wide drop-shadow-sm">
                 {selectedRelic.title}
               </h2>
-              <p className="text-xs text-[#E8D5A3] mt-0.5 font-medium">
+              <p className="text-xs text-[#FDE68A] mt-1 font-medium font-sans">
                 {selectedRelic.subtitle}
               </p>
             </div>
             {selectedRelic.details.amount && (
               <div className="text-right shrink-0 pl-2">
-                <span className="font-mono text-base font-black text-[#F59E0B]">
+                <span className="font-mono text-base sm:text-lg font-black text-[#F59E0B] tracking-tight">
                   ₹{selectedRelic.details.amount.toLocaleString()}
                 </span>
                 <p className="text-[9px] font-mono text-slate-400">INR / VOUCHER</p>
