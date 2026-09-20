@@ -1,7 +1,7 @@
 /**
  * RELIC - Chapter Detection & Narrative Engine
  * Reconstructs life phases from digital residues and generates
- * poetic, data-grounded narrations describing the persona's evolution.
+ * DATA-DRIVEN narrations grounded in actual relic signals from each chapter.
  */
 
 import type { Relic, Chapter, MoodSignature, RelicCategory } from '../../types/relic';
@@ -31,8 +31,11 @@ export function buildChapters(relics: Relic[], rawChapterDefs: Partial<Chapter>[
       .slice(0, 3)
       .map(([c]) => c as RelicCategory);
 
-    // Dynamic story narration based on real data signals
+    // Data-driven story narration
     const narration = generateChapterNarration(idx, dominantMood, dominantCategories, chapterRelics, def.title || '');
+
+    // Short insight line for JourneyStrip
+    const insightLine = generateInsightLine(dominantCategories, chapterRelics, dominantMood);
 
     // Extract dynamic highlights
     const highlights = extractHighlights(chapterRelics);
@@ -43,6 +46,7 @@ export function buildChapters(relics: Relic[], rawChapterDefs: Partial<Chapter>[
       title: def.title || `Chapter ${idx + 1}`,
       subtitle: def.subtitle || '',
       narration,
+      insightLine,
       periodLabel: def.periodLabel || `Phase ${idx + 1}`,
       startDate: chapterRelics[0]?.timestamp || '',
       endDate: chapterRelics[chapterRelics.length - 1]?.timestamp || '',
@@ -64,35 +68,70 @@ function generateChapterNarration(
   relics: Relic[],
   title: string
 ): string {
+  // Pull real stats from actual relics
   const city = relics.find((r) => r.location?.city)?.location?.city || 'Transit';
   const spend = relics.reduce((sum, r) => sum + (r.details.amount || 0), 0);
   const musicCount = relics.filter((r) => r.category === 'music').length;
   const nocturnalCount = relics.filter((r) => r.hour >= 23 || r.hour <= 4).length;
+  const placesCount = relics.filter((r) => r.category === 'place').length;
+  const purchaseCount = relics.filter((r) => r.category === 'purchase').length;
+  const eventCount = relics.filter((r) => r.category === 'event').length;
+
+  // Top artist from this chapter
+  const artistCounts: Record<string, number> = {};
+  relics.forEach((r) => {
+    if (r.details.artist) artistCounts[r.details.artist] = (artistCounts[r.details.artist] || 0) + 1;
+  });
+  const topArtist = Object.entries(artistCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+
+  // Nocturnal percentage
+  const nocturnalPct = relics.length > 0 ? Math.round((nocturnalCount / relics.length) * 100) : 0;
+
+  const topCat = topCats[0] || 'note';
 
   const narratives: Record<number, string> = {
-    0: `In this opening chapter, the digital residue reveals a mind working in the nocturnal quiet of ${city}. With ${nocturnalCount} late-night activities and ${musicCount} music sessions, the user was deeply introspective, experimenting with ideas in solitary stillness. Spend remained modest (₹${spend.toLocaleString()}), concentrated on midnight coffee and digital subscriptions.`,
-    1: `A profound shift toward motion. The receipts document transit along the western coast — train tickets, shoreline photographs, and café stops. The user stepped out of isolation, trading midnight study for physical transit and field recordings. The dominant resonance shifted to a wanderer frequency.`,
-    2: `The high-momentum sprint. Marked by intense collaboration, hackathon admissions, rapid messaging pings, and peak caffeine expenditure. The data reflects high agency, ambitious problem-solving, and a team-first velocity centered in the tech hubs.`,
-    3: `Following intense creation came deliberate quietude. Receipts show second-hand bookshops, cinematic screenings, and journal entries written during twilight. Music shifted from high-energy beats to acoustic and ambient records. A season of consolidation and internal recalibration.`,
-    4: `The synthesis chapter. Milestones achieved, celebratory gatherings, travel tickets to sunlit destinations, and renewed purpose. The digital footprint reflects confidence, social harmony, and completion of the transformative arc.`,
+    0: `An opening phase anchored in ${city}, where ${nocturnalPct}% of all activity unfolded in the nocturnal hours. The ${musicCount} music sessions${topArtist ? ` — led by ${topArtist}'s frequencies —` : ''} defined the soundscape of a deeply introspective period. Spending held modest at ₹${spend.toLocaleString()}, concentrated on late-night coffee and digital subscriptions. The digital residue reads as a mind in formation, quietly accumulating ideas before any outward declaration.`,
+    1: `A chapter defined by motion — ${placesCount} distinct places visited, receipts from transit corridors, shoreline cafés, and early-morning platforms. The persona stepped decisively out of isolation, trading nocturnal solitude for physical geography. ${topArtist ? `The soundtrack shifted: ${topArtist} gave way to field-recorded ambient textures.` : 'The soundtrack shifted from familiar to unfamiliar.'} Total spend reached ₹${spend.toLocaleString()}, weighted toward travel and food.`,
+    2: `The high-momentum sprint — ${eventCount} event relics and ${relics.length} total fragments mark this as the most data-dense chapter. Hackathon admissions, collaboration signals, rapid message exchanges, and peak caffeine expenditure of ₹${spend.toLocaleString()} paint a picture of sustained, team-driven velocity. The dominant resonance is ${mood}: ambitious, precise, and outward-facing. Sleep debt left its traces in the data.`,
+    3: `Following the sprint came deliberate stillness. ${relics.length} relics — fewer than the preceding chapter, and more reflective in texture. ${purchaseCount} purchases shifted from fuel to culture: bookshops, cinema tickets, journal supplies. ${topArtist ? `${topArtist} appeared repeatedly in the music record` : 'Music records showed a clear acoustic shift'}, signaling internal recalibration. Total excavated spend: ₹${spend.toLocaleString()}.`,
+    4: `The synthesis chapter. ${relics.length} relics, ${placesCount} destinations, and a ${mood} resonance that runs through every fragment. Milestones appear in the event layer; travel destinations broaden; spending ₹${spend.toLocaleString()} shifts toward experience and celebration. The arc completes here — not with closure, but with momentum directed outward.`,
   };
 
-  return narratives[index] || `A distinctive phase defined by ${mood} resonance across ${topCats.join(' and ')}. Total excavated relics: ${relics.length}.`;
+  return narratives[index] || `A distinctive phase of ${mood} resonance — ${relics.length} relics excavated across ${topCats.slice(0, 2).join(' and ')}. Total spend: ₹${spend.toLocaleString()}.`;
+}
+
+function generateInsightLine(
+  topCats: RelicCategory[],
+  relics: Relic[],
+  mood: MoodSignature
+): string {
+  const nocturnalCount = relics.filter((r) => r.hour >= 23 || r.hour <= 4).length;
+  const spend = relics.reduce((sum, r) => sum + (r.details.amount || 0), 0);
+  const city = relics.find((r) => r.location?.city)?.location?.city;
+  const topCat = topCats[0];
+
+  if (nocturnalCount > relics.length * 0.3) {
+    return `${nocturnalCount} late-night sessions · ${mood} resonance`;
+  }
+  if (city) {
+    return `Anchored in ${city} · ₹${Math.round(spend / 1000)}k spent`;
+  }
+  return `${topCat} dominant · ₹${Math.round(spend / 1000)}k excavated`;
 }
 
 function extractHighlights(relics: Relic[]): string[] {
   const highlights: string[] = [];
   const topArtist = relics.find((r) => r.details.artist)?.details.artist;
-  if (topArtist) highlights.push(`Anchor sound: ${topArtist}`);
+  if (topArtist) highlights.push(`Sound: ${topArtist}`);
 
   const topCity = relics.find((r) => r.location?.city)?.location?.city;
-  if (topCity) highlights.push(`Primary geography: ${topCity}`);
+  if (topCity) highlights.push(`Place: ${topCity}`);
 
   const topPhoto = relics.find((r) => r.category === 'photo');
-  if (topPhoto) highlights.push(`Visual beacon: "${topPhoto.title}"`);
+  if (topPhoto) highlights.push(`Visual: "${topPhoto.title}"`);
 
   const topPurchase = relics.find((r) => r.category === 'purchase' && (r.details.amount || 0) > 100);
-  if (topPurchase) highlights.push(`Key transaction: ₹${topPurchase.details.amount} (${topPurchase.title})`);
+  if (topPurchase) highlights.push(`Spend: ₹${topPurchase.details.amount} — ${topPurchase.title}`);
 
   return highlights.slice(0, 4);
 }

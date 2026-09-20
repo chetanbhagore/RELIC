@@ -161,7 +161,7 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
   setSearchQuery: (query) => {
     set({ searchQuery: query });
 
-    // If query matches a relic, fly camera to first result
+    // If query matches a relic, fly camera to first result AND open detail panel
     if (query.trim().length >= 3) {
       const q = query.toLowerCase();
       const match = get().allRelics.find(
@@ -172,9 +172,8 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
           (r.location?.city && r.location.city.toLowerCase().includes(q))
       );
       if (match && match.spatialCoordinates) {
-        set({
-          cameraTarget: match.spatialCoordinates,
-        });
+        // Select the relic — this moves camera + opens detail panel
+        get().selectRelic(match.id);
       }
     }
   },

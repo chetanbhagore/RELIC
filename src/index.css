@@ -35,3 +35,35 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Keyframe Animations ─────────────────────────────── */
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes relicPulse {
+  0%,  100% { box-shadow: 0 0 30px #C9A22750, 0 0 60px #C9A22720; transform: scale(1); }
+  50%        { box-shadow: 0 0 55px #C9A22790, 0 0 110px #C9A22740; transform: scale(1.06); }
+}
+
+@keyframes relicOrbit {
+  from { transform: scale(1.5) rotate(0deg);   opacity: 0.4; }
+  to   { transform: scale(1.5) rotate(360deg); opacity: 0.4; }
+}

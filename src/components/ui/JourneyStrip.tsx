@@ -1,6 +1,7 @@
 /**
  * RELIC - Bottom Journey Strip
  * Non-timeline spatial navigation bar showing the architecture of life phases.
+ * ENHANCED: Shows data-driven insight line per chapter.
  */
 
 import React from 'react';
@@ -36,7 +37,7 @@ export function JourneyStrip() {
               aria-label={`Navigate to Chapter ${ROMAN_NUMERALS[idx]}: ${chapter.title}`}
             >
               <div
-                className={`flex items-center justify-center w-6 h-6 rounded-lg font-serif font-bold text-xs ${
+                className={`flex items-center justify-center w-6 h-6 rounded-lg font-serif font-bold text-xs shrink-0 ${
                   isActive
                     ? 'bg-[#C9A227] text-[#070B14]'
                     : 'bg-slate-800 text-[#E8D5A3]'
@@ -50,7 +51,8 @@ export function JourneyStrip() {
                   {chapter.title.replace(/^Chapter\s+[IVX]+:\s*/, '')}
                 </p>
                 <p className="text-[9px] text-slate-400 font-mono">
-                  {chapter.relicCount} relics · {chapter.dominantMood}
+                  {chapter.relicCount} relics
+                  {chapter.insightLine ? ` · ${chapter.insightLine}` : ` · ${chapter.dominantMood}`}
                 </p>
               </div>
             </button>

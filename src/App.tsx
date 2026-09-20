@@ -1,9 +1,10 @@
 /**
  * RELIC - Main Application Shell
  * Connects 3D Canvas, Royal UI overlays, and global keyboard shortcuts.
+ * ENHANCED: Loading screen, echo legend, number key chapter navigation.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RelicScene } from './components/canvas/RelicScene';
 import { TopBar } from './components/ui/TopBar';
 import { FilterPills } from './components/ui/FilterPills';
@@ -12,9 +13,13 @@ import { JourneyStrip } from './components/ui/JourneyStrip';
 import { EchoModal } from './components/ui/EchoModal';
 import { StatsModal } from './components/ui/StatsModal';
 import { AccessibilityBar } from './components/ui/AccessibilityBar';
+import { EchoLegend } from './components/ui/EchoLegend';
+import { LoadingScreen } from './components/ui/LoadingScreen';
 import { useRelicStore } from './lib/store';
 
 export function App() {
+  const [isReady, setIsReady] = useState(false);
+
   const selectRelic = useRelicStore((s) => s.selectRelic);
   const selectedRelicId = useRelicStore((s) => s.selectedRelicId);
   const setDetailPanelOpen = useRelicStore((s) => s.setDetailPanelOpen);
@@ -50,6 +55,15 @@ export function App() {
         toggleEchoMode();
       }
 
+      // Number keys 1-5: Jump directly to chapter
+      if (e.key >= '1' && e.key <= '5') {
+        const chapterIdx = parseInt(e.key) - 1;
+        if (chapters[chapterIdx]) {
+          selectChapter(chapters[chapterIdx].id);
+        }
+        return;
+      }
+
       // Left / Right Arrows: Cycle Chapters
       if (e.key === 'ArrowRight') {
         e.preventDefault();
@@ -80,8 +94,15 @@ export function App() {
     selectChapter,
   ]);
 
+  if (!isReady) {
+    return <LoadingScreen onComplete={() => setIsReady(true)} />;
+  }
+
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-[#070B14] font-sans antialiased text-slate-100">
+    <main
+      className="relative w-screen h-screen overflow-hidden bg-[#070B14] font-sans antialiased text-slate-100"
+      style={{ animation: 'fadeIn 0.5s ease' }}
+    >
       {/* 3D Reliquary Canvas */}
       <RelicScene />
 
@@ -93,6 +114,9 @@ export function App() {
 
       {/* Slide-out Relic Detail Sheet */}
       <DetailPanel />
+
+      {/* Echo Connection Legend (visible when echo mode active) */}
+      <EchoLegend />
 
       {/* Bottom Chapter Journey Navigation Strip */}
       <JourneyStrip />

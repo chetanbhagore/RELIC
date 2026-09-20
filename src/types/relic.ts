@@ -89,6 +89,7 @@ export interface Chapter {
   title: string;
   subtitle: string;
   narration: string;
+  insightLine?: string;
   periodLabel: string;
   startDate: string;
   endDate: string;
