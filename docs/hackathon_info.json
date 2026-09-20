@@ -1,0 +1,86 @@
+﻿{
+    "id":  "hack_1789647857743",
+    "name":  "WebRush â 6-Hour Frontend Hackathon",
+    "tagline":  "One Challenge. Six Hours. Three Chances. One Leaderboard.",
+    "description":  "WebRush â 6-Hour Frontend Hackathon\nWebRush is a fully online, individual frontend hackathon where participants get 6 hours to build a complete web solution for a given challenge.\n\nBut thereâs a twist â you don\u0027t get just one shot at your score.\n\nThe Challenge\nAt the beginning of the hackathon, one common problem statement will be provided to all participants.\n\nYour task is to design and develop the best possible frontend solution within the 6-hour time limit.\n\nYou can choose your own approach, design, frontend framework, libraries, and tools â but your final submission must follow the challenge requirements.\n\nAutomated Evaluation with FAIE Engine\nYour project will be evaluated automatically using the FAIE Engine, an automated frontend evaluation and scoring system.\n\nThe evaluation focuses on aspects such as:\n\nUI/UX \u0026 Visual Quality\nRequired Features \u0026 Functionality\nCode Quality \u0026 Structure\nResponsiveness\nAccessibility \u0026 Performance\nProject Documentation\nOverall implementation of the given challenge\nNo manual judging panel is required for scoring. Your submission is analyzed and scored through the evaluation engine.\n\n3 Chances to Improve Your Score\nEvery participant gets up to 3 chances to submit and improve their project during the allowed submission window.\n\nYou can use these attempts strategically:\n\nBuild â Evaluate â Improve â Resubmit\n\nEach evaluation provides a score, allowing you to identify areas that need improvement and work towards a better final score.\n\nYour highest valid score will be considered for the final leaderboard.\n\nLeaderboard = Final Results\nThis isn\u0027t just about completing the challenge â your score determines your position.\n\nParticipants will be ranked on the final leaderboard based on their highest achieved score.\n\nHighest Rank â Winner\nSecond Highest Rank â Runner-Up\nOther top-ranked participants â As per the final leaderboard\n\nï¸ Technology Rules\nIndividual participation only.\nFully online hackathon.\nFrontend development only.\nModern frontend frameworks, libraries, UI tools, and development tools are allowed.\nBackend technologies and backend implementation are not allowed.\nThe project must be developed within the 6-hour hackathon duration.\nPreviously built projects cannot be submitted.\nSubmission\nParticipants will submit:\n\nLive deployed website\nGitHub repository\nRequired project details\nAll submissions must be made within the specified hackathon timeline.\n\nOne Challenge. Six Hours. Three Chances. One Leaderboard.\nBuild fast. Get evaluated. Improve your score. Climb the leaderboard.\n\nWelcome to WebRush.",
+    "registrationStart":  "2026-09-19T16:30:00.000Z",
+    "registrationClose":  "2026-09-20T10:30:00.000Z",
+    "eventStart":  "2026-09-20T04:30:00.000Z",
+    "eventClose":  "2026-09-20T10:30:00.000Z",
+    "bannerUrl":  "/api/uploads/img_1789652589262_ab0ce12aed5a.png",
+    "posterUrl":  "/api/uploads/img_1789646775850_edf4a2f93412.png",
+    "submissionEnabled":  true,
+    "leaderboardEnabled":  true,
+    "discussionEnabled":  false,
+    "problemReleased":  true,
+    "rounds":  [
+                   {
+                       "name":  "WebRush â The 6-Hour Challenge",
+                       "endDate":  "2026-09-20",
+                       "startDate":  "2026-09-20",
+                       "description":  "Participants will receive one common problem statement and must build a complete frontend-only solution within the 6-hour hackathon window.  Participants must submit: â¢ Live deployed website â¢ GitHub repository â¢ Required project details  Each participant will get up to 3 submission attempts to improve their score. Every submission will be automatically evaluated using the FAIE (Frontend Arena Intelligence Engine).  The highest valid score achieved by the participant will be considered for the final leaderboard. Final rankings will be based on the leaderboard scores generated through the automated evaluation process.  All submissions must follow the challenge requirements and be completed within the given 6-hour duration."
+                   }
+               ],
+    "problemTitle":  "Your Life, In Receipts ð§¾",
+    "problemDescription":  "Problem Statement\nYour Life, In Receipts\nThe Concept\n\nYour digital life is made up of hundreds of tiny moments.\n\nA song you played at 2 AM.\nA place you visited.\nA photo you took.\nSomething you bought.\nA movie you watched.\nA message you saved.\nA search you made.\nA random note you wrote.\n\nIndividually, these moments may not mean much.\n\nBut when you put them together, they tell a story.\n\nThe Challenge\n\nBuild a frontend-only digital experience that transforms a collection of fictional âlife receiptsâ into a meaningful and interactive story.\n\nEvery participant will receive the same dataset containing different types of digital-life activities:\n\nMusic\nMovies \u0026 Entertainment\nPlaces\nPurchases\nPhotos\nMessages\nSearches\nEvents\nPersonal Notes\n\nThe dataset represents fragments of someone\u0027s digital life over a period of time.\n\nYour task is not simply to display these records.\n\nYou must explore the data, identify meaningful connections, discover patterns, and turn those disconnected moments into a story that the user can understand and interact with.\n\nThe Core Challenge\n\nThink about what could be hidden inside the data.\n\nWhat kind of person was the user during different periods?\n\nHow did their interests and behaviour change over time?\n\nWhich moments are connected?\n\nWhat recurring patterns can be found?\n\nCan unrelated-looking receipts reveal a bigger story when viewed together?\n\nYour experience should move beyond:\n\nRaw Data â Information\n\nand aim for:\n\nRaw Data â Insights â Connections â Story\n\nHow you achieve this is entirely up to you.\n\nDon\u0027t Just Build a Timeline\n\nA simple chronological list of receipts is not enough.\n\nWe don\u0027t want:\n\nJanuary â February â March â April\n\nwith a collection of cards underneath.\n\nThink about the relationships between different types of information.\n\nFor example:\n\nSong â Location â Photo â Purchase â Event\n\nmight appear to be five unrelated records.\n\nBut together, they could represent one meaningful moment or chapter in someone\u0027s life.\n\nYour interface should make these connections discoverable, interactive, and meaningful.\n\nMinimum Requirements\n\nYour solution must provide:\n\nA way to explore the provided life receipts\nMeaningful filtering, searching, or navigation\nAt least one meaningful mechanism for discovering relationships or patterns\nAn interactive storytelling experience\nA clear visual representation of the user\u0027s digital journey\nResponsive design across different screen sizes\n\nThese requirements define the minimum experience.\n\nHow you solve the problem is completely up to you.\n\nCreative Direction\n\nYour solution could take the form of:\n\nDigital Scrapbook\nInteractive Timeline\nLife Map\nData Story\nPersonal Museum\nInteractive Journal\nGame-like Experience\nData Visualization\nAI-inspired Interface\nOr something completely new\n\nThese are only examples â you are not required to follow any of them.\n\nWe want to see your interpretation of the problem.\n\nThe Real Challenge\n\nYou have a dataset full of disconnected moments.\n\nYour job is to give those moments meaning.\n\nDon\u0027t just show the user:\n\nâWhat happened?â\n\nHelp them discover:\n\nâWhat does it all mean?â\n\nThe strongest solutions will make the user curious enough to explore, connect the dots, and discover something they didn\u0027t notice at first glance.\n\nThe Constraint\n\nYou have exactly 6 hours to:\n\nUnderstand â Design â Build â Refine â Deploy\n\nYour solution must be created within the hackathon duration.\n\nThis is a frontend-only challenge. You are free to use modern frontend frameworks, libraries, UI tools, and development tools of your choice.\n\nBackend implementation is not required and is not permitted.\n\nYour Mission\n\nOne Dataset.\nHundreds of Moments.\nInfinite Stories.\nSix Hours to Uncover One.\n\nWhat story will you uncover?",
+    "testCases":  [
+                      {
+                          "input":  "Sample input logic",
+                          "output":  "Sample output expected",
+                          "weight":  50
+                      }
+                  ],
+    "rules":  [
+                  "Participation is strictly individual. Team participation is not allowed.",
+                  "WebRush is a fully online, 6-hour frontend-only hackathon.",
+                  "Participants must build their solution within the given 6-hour hackathon window.",
+                  "Only frontend technologies, frameworks, libraries, and development tools are allowed.",
+                  "Backend technologies, backend servers, databases, and server-side implementations are not allowed.",
+                  "All participants will receive the same problem statement and must build their solution according to the given challenge.",
+                  "Participants must use the dataset provided by the organizers for the challenge.",
+                  "Previously developed or pre-built projects cannot be submitted. The project must be created during the hackathon.",
+                  "Participants may use sample/mock data where required, but the final solution must remain frontend-only.",
+                  "The submitted project must be responsive and accessible through a working live deployment.",
+                  "A maximum of 3 submission attempts will be allowed for improving the project, subject to the submission window specified by the organizers.",
+                  "The FAIE Engine will evaluate submissions based on the predefined evaluation framework and technical criteria.",
+                  "Only valid submissions that meet the hackathon requirements will be considered for the final leaderboard.",
+                  "All participants must follow the official communication channels for important announcements and hackathon updates.",
+                  "The final leaderboard and results will be based on the valid evaluation scores recorded by the FAIE Engine.",
+                  "Submissions will be automatically evaluated using the FAIE (Frontend Arena Intelligence Engine).",
+                  "Participants must submit both a live deployment URL and GitHub repository before the submission deadline"
+              ],
+    "resources":  [
+
+                  ],
+    "status":  "upcoming",
+    "published":  true,
+    "archived":  false,
+    "publishedAt":  "2026-09-17T13:30:25.475Z",
+    "startDate":  "2026-09-20T04:30:00.000Z",
+    "endDate":  "2026-09-20T10:30:00.000Z",
+    "participationMode":  "ONLINE",
+    "feeType":  "Free",
+    "teamSize":  "Solo",
+    "evaluationMode":  "AUTOMATED",
+    "submissionConfig":  {
+                             "githubRepo":  {
+                                                "enabled":  true,
+                                                "required":  true
+                                            },
+                             "deployedUrl":  {
+                                                 "enabled":  true,
+                                                 "required":  true
+                                             },
+                             "maxAttempts":  3,
+                             "problemStatement":  {
+                                                      "enabled":  true,
+                                                      "required":  true
+                                                  },
+                             "changesDescription":  {
+                                                        "enabled":  true,
+                                                        "required":  true
+                                                    }
+                         },
+    "createdAt":  "2026-09-17T12:24:19.030Z",
+    "lifecycle":  "ACTIVE"
+}

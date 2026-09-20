@@ -1,0 +1,40 @@
+{
+  "name": "relic-web-rush",
+  "private": true,
+  "version": "1.0.0",
+  "description": "RELIC — Your Life, In Receipts | 3D Digital Reliquary & Personal Life Reconstruction Engine",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "preprocess": "node scripts/preprocess-data.js"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.0.8",
+    "@react-three/fiber": "^9.7.0",
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "tailwind-merge": "^3.5.0",
+    "three": "^0.183.2",
+    "three-stdlib": "^2.36.0",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.183.1",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}
