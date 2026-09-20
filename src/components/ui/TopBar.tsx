@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { useRelicStore } from '../../lib/store';
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 
 export function TopBar() {
   const searchQuery = useRelicStore((s) => s.searchQuery);
@@ -97,7 +98,16 @@ export function TopBar() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search relics, songs, cities, receipts... (Press '/')"
+            onKeyDown={(e: ReactKeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') {
+                searchInputRef.current?.blur();
+              }
+              if (e.key === 'Escape') {
+                setSearchQuery('');
+                searchInputRef.current?.blur();
+              }
+            }}
+            placeholder="Search relics, songs, cities... (Press '/')"
             className="w-full h-8 pl-8 pr-7 text-xs rounded-full bg-[#0F172A]/90 border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#C9A227] focus:ring-1 focus:ring-[#C9A227] transition-all font-sans"
             aria-label="Search relics by keyword, artist, or city"
           />

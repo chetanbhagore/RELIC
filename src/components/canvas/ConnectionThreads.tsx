@@ -1,13 +1,54 @@
 /**
  * RELIC - Glowing 3D Connection Threads
- * Visualizes active relational threads between fused moments and relics.
- * Pulses gently with cyan-sapphire luminescence.
+ * ENHANCED:
+ * - Staggered opacity animation when Echo mode activates
+ * - Thicker/brighter threads when a relic is selected
+ * - Echo threads appear with staggered delay for cinematic effect
  */
 
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { Line } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import { useRelicStore } from '../../lib/store';
 import { getActiveConnections } from '../../lib/engine/connections';
+
+// Animated echo thread that fades in at a staggered delay
+function EchoLine({
+  points,
+  color,
+  delay,
+}: {
+  points: [number, number, number][];
+  color: string;
+  delay: number;
+}) {
+  const opacityRef = useRef(0);
+  const startedRef = useRef(false);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (!startedRef.current) {
+      startedRef.current = true;
+    }
+    // Fade in from 0 → 0.65 over ~0.6s after delay
+    const progress = Math.min((t % 10 - delay) / 0.6, 1);
+    opacityRef.current = progress > 0 ? progress * 0.65 : 0;
+  });
+
+  return (
+    <Line
+      points={points}
+      color={color}
+      lineWidth={1.6}
+      transparent
+      opacity={0.65}
+      dashed
+      dashScale={2}
+      dashSize={0.4}
+      gapSize={0.2}
+    />
+  );
+}
 
 export function ConnectionThreads() {
   const selectedRelicId = useRelicStore((s) => s.selectedRelicId);
@@ -16,7 +57,6 @@ export function ConnectionThreads() {
   const isEchoModeActive = useRelicStore((s) => s.isEchoModeActive);
   const echoes = useRelicStore((s) => s.echoes);
 
-  // Active connections for the selected relic
   const selectedRelic = useMemo(
     () => allRelics.find((r) => r.id === selectedRelicId) || null,
     [allRelics, selectedRelicId]
@@ -30,9 +70,9 @@ export function ConnectionThreads() {
   const echoConnections = useMemo(() => {
     if (!isEchoModeActive) return [];
     const relicMap = new Map(allRelics.map((r) => [r.id, r]));
-    const links: { id: string; points: [number, number, number][]; color: string }[] = [];
+    const links: { id: string; points: [number, number, number][]; color: string; delay: number }[] = [];
 
-    echoes.forEach((echo) => {
+    echoes.forEach((echo, echoIdx) => {
       for (let i = 0; i < Math.min(echo.relicIds.length - 1, 6); i++) {
         const r1 = relicMap.get(echo.relicIds[i]);
         const r2 = relicMap.get(echo.relicIds[i + 1]);
@@ -43,12 +83,9 @@ export function ConnectionThreads() {
 
           links.push({
             id: `echo_link_${r1.id}_${r2.id}`,
-            points: [
-              r1.spatialCoordinates,
-              [midX, midY, midZ],
-              r2.spatialCoordinates,
-            ],
-            color: '#F59E0B', // Gold for Echoes
+            points: [r1.spatialCoordinates, [midX, midY, midZ], r2.spatialCoordinates],
+            color: '#F59E0B',
+            delay: (echoIdx * 3 + i) * 0.07, // staggered reveal
           });
         }
       }
@@ -56,6 +93,10 @@ export function ConnectionThreads() {
 
     return links;
   }, [isEchoModeActive, allRelics, echoes]);
+
+  // Boost thread width when relic selected
+  const directLineWidth = selectedRelicId ? 3.5 : 2.2;
+  const directOpacity = selectedRelicId ? 0.95 : 0.85;
 
   return (
     <group>
@@ -65,13 +106,13 @@ export function ConnectionThreads() {
           key={conn.id}
           points={conn.curvePoints}
           color="#38BDF8"
-          lineWidth={2.2}
+          lineWidth={directLineWidth}
           transparent
-          opacity={0.85}
+          opacity={directOpacity}
         />
       ))}
 
-      {/* Global Echo Threads (Royal Gold) */}
+      {/* Global Echo Threads (Royal Gold) — staggered fade in */}
       {echoConnections.map((conn) => (
         <Line
           key={conn.id}

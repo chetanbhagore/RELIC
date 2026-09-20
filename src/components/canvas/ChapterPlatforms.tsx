@@ -1,7 +1,7 @@
 /**
  * RELIC - Floating Chapter Platforms
- * Massive, dark crystalline stone slabs marking distinct life phases.
- * Acts as spatial anchors for orbiting relic clusters.
+ * ENHANCED: Platform radius scales with real relic count (organic, not uniform).
+ * Larger chapters = physically bigger slabs. Instantly readable at a glance.
  */
 
 import { useRef } from 'react';
@@ -17,15 +17,20 @@ interface PlatformProps {
   chapter: Chapter;
   isActive: boolean;
   onSelect: () => void;
+  maxRelicCount: number;
 }
 
-function Platform({ chapter, isActive, onSelect }: PlatformProps) {
+function Platform({ chapter, isActive, onSelect, maxRelicCount }: PlatformProps) {
   const meshRef = useRef<THREE.Group>(null);
   const [x, y, z] = chapter.platformPosition;
 
+  // Scale platform radius 2.2–4.0 based on relic count relative to max
+  const sizeFraction = chapter.relicCount / Math.max(maxRelicCount, 1);
+  const platformRadius = 2.2 + sizeFraction * 1.8; // 2.2 (min) → 4.0 (max)
+  const rimRadius = platformRadius + 0.02;
+
   useFrame((state) => {
     if (meshRef.current) {
-      // Gentle breathing idle float
       const t = state.clock.getElapsedTime();
       meshRef.current.position.y = y + Math.sin(t * 0.8 + chapter.index) * 0.12;
     }
@@ -33,7 +38,7 @@ function Platform({ chapter, isActive, onSelect }: PlatformProps) {
 
   return (
     <group ref={meshRef} position={[x, y, z]}>
-      {/* Stone / Marble Platform Base */}
+      {/* Stone / Marble Platform Base — radius reflects relic count */}
       <mesh
         castShadow
         receiveShadow
@@ -42,7 +47,7 @@ function Platform({ chapter, isActive, onSelect }: PlatformProps) {
           onSelect();
         }}
       >
-        <cylinderGeometry args={[3.2, 3.5, 0.45, 8]} />
+        <cylinderGeometry args={[platformRadius, platformRadius * 1.08, 0.45, 8]} />
         <meshStandardMaterial
           color={isActive ? '#1E293B' : '#0B1120'}
           metalness={0.4}
@@ -50,32 +55,43 @@ function Platform({ chapter, isActive, onSelect }: PlatformProps) {
         />
       </mesh>
 
-      {/* Brushed Gold Rim Chamfer */}
+      {/* Brushed Gold Rim */}
       <mesh position={[0, 0.24, 0]}>
-        <cylinderGeometry args={[3.22, 3.22, 0.06, 8]} />
+        <cylinderGeometry args={[rimRadius, rimRadius, 0.06, 8]} />
         <meshStandardMaterial
           color={isActive ? '#F59E0B' : '#C9A227'}
           emissive={isActive ? '#C9A227' : '#78350F'}
-          emissiveIntensity={isActive ? 0.8 : 0.2}
-          metalness={0.85}
-          roughness={0.25}
+          emissiveIntensity={isActive ? 0.9 : 0.2}
+          metalness={0.9}
+          roughness={0.2}
         />
       </mesh>
 
-      {/* Inner Glowing Core Ring */}
+      {/* Inner Glowing Core Ring — scales with platform */}
       <mesh position={[0, 0.26, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.8, 2.0, 32]} />
+        <ringGeometry args={[platformRadius * 0.55, platformRadius * 0.62, 32]} />
         <meshBasicMaterial
           color={chapter.colorAccent}
           transparent
-          opacity={isActive ? 0.85 : 0.35}
+          opacity={isActive ? 0.9 : 0.35}
           side={THREE.DoubleSide}
         />
       </mesh>
 
+      {/* Active platform glow light */}
+      {isActive && (
+        <pointLight
+          color={chapter.colorAccent}
+          intensity={1.2}
+          distance={platformRadius * 2.5}
+          decay={2}
+          position={[0, 1.5, 0]}
+        />
+      )}
+
       {/* Spatial Chapter Label Billboard */}
       <Html
-        position={[0, -0.6, 2.6]}
+        position={[0, -0.65, platformRadius - 0.4]}
         center
         distanceFactor={18}
         className="pointer-events-none select-none"
@@ -96,11 +112,11 @@ function Platform({ chapter, isActive, onSelect }: PlatformProps) {
               {ROMAN_NUMERALS[chapter.index] || chapter.index + 1}
             </span>
             <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-200">
-              {chapter.title.split(':')[1] || chapter.title}
+              {chapter.title.split(':')[1]?.trim() || chapter.title}
             </span>
           </div>
           <p className="mt-0.5 text-[9px] text-[#94A3B8] font-medium tracking-wide">
-            {chapter.relicCount} relics · {chapter.periodLabel.split('·')[0]}
+            {chapter.relicCount} relics{chapter.insightLine ? ` · ${chapter.insightLine}` : ''}
           </p>
         </div>
       </Html>
@@ -113,6 +129,8 @@ export function ChapterPlatforms() {
   const activeChapterId = useRelicStore((s) => s.activeChapterId);
   const selectChapter = useRelicStore((s) => s.selectChapter);
 
+  const maxRelicCount = Math.max(...chapters.map((c) => c.relicCount), 1);
+
   return (
     <group>
       {chapters.map((chapter) => (
@@ -121,6 +139,7 @@ export function ChapterPlatforms() {
           chapter={chapter}
           isActive={activeChapterId === chapter.id}
           onSelect={() => selectChapter(chapter.id)}
+          maxRelicCount={maxRelicCount}
         />
       ))}
     </group>
