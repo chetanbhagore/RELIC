@@ -30,6 +30,13 @@ export function TopBar() {
   const resetView = useRelicStore((s) => s.resetView);
   const echoes = useRelicStore((s) => s.echoes);
   const allRelics = useRelicStore((s) => s.allRelics);
+  const activeChapterId = useRelicStore((s) => s.activeChapterId);
+  const selectedRelicId = useRelicStore((s) => s.selectedRelicId);
+  const selectedCategories = useRelicStore((s) => s.selectedCategories);
+
+  const hasActiveFocus = Boolean(
+    activeChapterId || selectedRelicId || searchQuery || selectedCategories.length > 0 || isEchoModeActive
+  );
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -177,14 +184,19 @@ export function TopBar() {
           )}
         </button>
 
-        {/* Reset Camera View */}
+        {/* Reset View Button */}
         <button
           onClick={resetView}
-          className="p-1.5 rounded-full bg-[#0F172A] border border-slate-800 text-slate-300 hover:text-slate-100 hover:border-slate-700 transition-colors cursor-pointer hidden sm:block"
-          title="Reset Camera View"
-          aria-label="Reset Camera View"
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs transition-all cursor-pointer ${
+            hasActiveFocus
+              ? 'bg-[#1E293B] border border-[#C9A227] text-[#E8D5A3] shadow-md shadow-[#C9A227]/20 ring-1 ring-[#C9A227]/50'
+              : 'bg-[#0F172A] border border-slate-800 text-slate-300 hover:text-slate-100 hover:border-slate-700'
+          }`}
+          title="Reset View to Overview (Esc)"
+          aria-label="Reset View to default overview"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-3.5 h-3.5 text-[#C9A227]" />
+          <span className="font-mono text-[11px] hidden sm:inline">Reset</span>
         </button>
       </div>
     </header>

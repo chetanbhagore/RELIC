@@ -218,6 +218,8 @@ export const useRelicStore = create<RelicStore>((set, get) => ({
       selectedMomentId: null,
       isDetailPanelOpen: false,
       isEchoModeActive: false,
+      searchQuery: '',
+      selectedCategories: [],
     });
   },
 }));

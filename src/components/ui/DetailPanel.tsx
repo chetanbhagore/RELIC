@@ -255,10 +255,16 @@ function PanelContent({
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
         {/* Physical Receipt Card */}
-        <div className="relative p-4 rounded-xl bg-gradient-to-b from-[#0F172A] to-[#070B14] border border-[#C9A227]/40 shadow-lg">
+        <div className="relative p-4 rounded-xl bg-gradient-to-b from-[#0F172A] to-[#070B14] border border-[#C9A227]/50 shadow-xl overflow-hidden">
+          {/* Subtle receipt watermark / top perforation line */}
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-dashed border-[#C9A227]/30 text-[10px] font-mono text-slate-400">
+            <span className="tracking-widest text-[#E8D5A3]">№ REC-{selectedRelic.id.replace(/\D/g, '').padStart(6, '0').slice(-6) || selectedRelic.id.slice(-6)}</span>
+            <span className="tracking-widest text-slate-500 select-none">||| | || ||| | |||</span>
+          </div>
+
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <h2 className="font-serif text-lg font-bold text-[#F1F5F9] leading-snug">
+            <div className="min-w-0 flex-1">
+              <h2 className="font-serif text-xl font-bold text-[#F1F5F9] leading-snug tracking-wide">
                 {selectedRelic.title}
               </h2>
               <p className="text-xs text-[#E8D5A3] mt-0.5 font-medium">
@@ -266,17 +272,17 @@ function PanelContent({
               </p>
             </div>
             {selectedRelic.details.amount && (
-              <div className="text-right shrink-0">
-                <span className="font-mono text-sm font-bold text-[#F59E0B]">
+              <div className="text-right shrink-0 pl-2">
+                <span className="font-mono text-base font-black text-[#F59E0B]">
                   ₹{selectedRelic.details.amount.toLocaleString()}
                 </span>
-                <p className="text-[9px] text-slate-400">INR</p>
+                <p className="text-[9px] font-mono text-slate-400">INR / VOUCHER</p>
               </div>
             )}
           </div>
 
           {/* Time & Place Bar */}
-          <div className="flex flex-wrap items-center gap-3 mt-3 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
+          <div className="flex flex-wrap items-center gap-3 mt-3 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono">
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-[#C9A227]" />
               <span>{formattedDate} · {formattedTime}</span>
@@ -286,6 +292,11 @@ function PanelContent({
                 <MapPin className="w-3.5 h-3.5 text-[#38BDF8]" />
                 <span>{selectedRelic.location.name || selectedRelic.location.city}</span>
               </div>
+            )}
+            {selectedRelic.details.sentiment && (
+              <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#1E293B] border border-slate-700 text-[#E8D5A3]">
+                {selectedRelic.details.sentiment}
+              </span>
             )}
           </div>
 
@@ -300,9 +311,9 @@ function PanelContent({
             <div className="mt-2.5 p-2 rounded bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
                 <Music2 className="w-3.5 h-3.5 text-[#818CF8]" />
-                <span className="text-slate-300 font-medium">{selectedRelic.details.artist}</span>
+                <span className="text-slate-200 font-medium">{selectedRelic.details.artist}</span>
               </div>
-              <span className="text-[10px] text-slate-500 font-mono">
+              <span className="text-[10px] text-slate-400 font-mono">
                 {selectedRelic.details.album || 'Single'}
               </span>
             </div>
@@ -321,7 +332,7 @@ function PanelContent({
               {selectedRelic.details.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono"
+                  className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800/90 text-slate-300 font-mono border border-slate-700"
                 >
                   #{tag}
                 </span>
@@ -402,6 +413,26 @@ function PanelContent({
               <span className="text-[10px] text-slate-400 font-mono">Click to explore</span>
             </div>
 
+            {/* Quick Traversal Controls */}
+            {connectedRelics.length > 1 && (
+              <div className="grid grid-cols-2 gap-2 pt-1 pb-1">
+                <button
+                  onClick={() => onSelectRelic(connectedRelics[0].id)}
+                  className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0F172A] border border-slate-800 hover:border-[#38BDF8]/60 text-[10px] font-mono text-slate-300 hover:text-[#38BDF8] transition-all cursor-pointer"
+                  title={`Jump to ${connectedRelics[0].title}`}
+                >
+                  <span>← First ({connectedRelics[0].category})</span>
+                </button>
+                <button
+                  onClick={() => onSelectRelic(connectedRelics[connectedRelics.length - 1].id)}
+                  className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#0F172A] border border-slate-800 hover:border-[#38BDF8]/60 text-[10px] font-mono text-slate-300 hover:text-[#38BDF8] transition-all cursor-pointer"
+                  title={`Jump to ${connectedRelics[connectedRelics.length - 1].title}`}
+                >
+                  <span>Last ({connectedRelics[connectedRelics.length - 1].category}) →</span>
+                </button>
+              </div>
+            )}
+
             <div className="space-y-1.5">
               {connectedRelics.map((rel) => (
                 <button
@@ -415,7 +446,7 @@ function PanelContent({
                       <p className="text-xs font-medium text-slate-200 truncate group-hover:text-[#38BDF8]">
                         {rel.title}
                       </p>
-                      <p className="text-[10px] text-slate-400 truncate">
+                      <p className="text-[10px] text-slate-400 truncate font-mono">
                         {rel.category} · {rel.subtitle}
                       </p>
                     </div>

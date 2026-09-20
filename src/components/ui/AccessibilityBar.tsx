@@ -77,10 +77,19 @@ export function AccessibilityBar() {
             ))}
           </div>
 
-          <div className="mt-3 pt-2 border-t border-slate-800">
-            <p className="text-[9px] text-slate-600 font-mono">
+          <div className="mt-3 pt-2 border-t border-slate-800 space-y-1.5">
+            <p className="text-[10px] text-slate-400 font-mono">
               Click any relic in 3D to inspect · Drag to orbit · Scroll to zoom
             </p>
+            <button
+              onClick={() => {
+                localStorage.removeItem('relic_onboarding_dismissed');
+                window.location.reload();
+              }}
+              className="w-full text-center text-[10px] text-[#C9A227] hover:underline font-mono cursor-pointer pt-1"
+            >
+              Replay Onboarding Guide ↺
+            </button>
           </div>
         </div>
       )}

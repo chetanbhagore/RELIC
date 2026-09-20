@@ -15,6 +15,8 @@ import { StatsModal } from './components/ui/StatsModal';
 import { AccessibilityBar } from './components/ui/AccessibilityBar';
 import { EchoLegend } from './components/ui/EchoLegend';
 import { LoadingScreen } from './components/ui/LoadingScreen';
+import { ChapterBanner } from './components/ui/ChapterBanner';
+import { OnboardingHint } from './components/ui/OnboardingHint';
 import { useRelicStore } from './lib/store';
 
 export function App() {
@@ -111,6 +113,12 @@ export function App() {
 
       {/* 9-Category Filter Navigation */}
       <FilterPills />
+
+      {/* Chapter Insight HUD Banner */}
+      <ChapterBanner />
+
+      {/* First-Time User Onboarding Guide */}
+      <OnboardingHint />
 
       {/* Slide-out Relic Detail Sheet */}
       <DetailPanel />
